@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AEGIS FIRE SYSTEMS | Clean Agent & CO2 Cylinder Bank Installation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script>tailwind.config={theme:{extend:{colors:{ink:'#070B14',card:'#0F172A',crimson:'#DC2626',amber:'#F59E0B'},fontFamily:{display:['"Barlow Condensed"','Impact','sans-serif'],body:['Barlow','system-ui','sans-serif']}}}}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<style>
+html{scroll-behavior:smooth}
+body{background:#070B14;color:#cbd5e1;font-family:Barlow,system-ui,sans-serif}
+h1,h2,h3,.d{font-family:'Barlow Condensed',Impact,sans-serif;letter-spacing:.01em}
+.metal{background:linear-gradient(180deg,#fff 0%,#cbd5e1 45%,#64748b 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.plate{background:linear-gradient(145deg,#1e293b,#0F172A 55%,#162033);border:1px solid #1f2b42}
+.glass{background:rgba(7,11,20,.62);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(148,163,184,.14)}
+.btn{display:inline-flex;align-items:center;gap:.5rem;font-weight:600;border-radius:.375rem;padding:.7rem 1.25rem;transition:transform .15s,background .2s,border-color .2s}
+.btn:active{transform:translateY(1px)}
+.btn-r{background:linear-gradient(180deg,#ef4444,#B91C1C);color:#fff;box-shadow:0 8px 24px -8px #DC2626}
+.btn-r:hover{background:linear-gradient(180deg,#f87171,#DC2626)}
+.btn-o{border:1px solid #334155;color:#e2e8f0}.btn-o:hover{border-color:#F59E0B;color:#F59E0B}
+:focus-visible{outline:2px solid #F59E0B;outline-offset:2px}
+.dock button{display:flex;align-items:center;gap:.5rem;padding:.55rem .85rem;border-radius:.375rem;border:1px solid #334155;background:rgba(15,23,42,.85);color:#e2e8f0;font-size:.85rem;font-weight:600;transition:.2s}
+.dock button:hover{border-color:#F59E0B}
+.dock button[aria-pressed=true]{background:#F59E0B;color:#070B14;border-color:#F59E0B}
+.dock button:disabled{opacity:.6;cursor:wait}
+input[type=range]{width:100%;accent-color:#DC2626}
+.fld{width:100%;background:#070B14;border:1px solid #243049;border-radius:.375rem;padding:.65rem .8rem;color:#f1f5f9}
+.fld:focus{border-color:#F59E0B;outline:none}
+.opt{cursor:pointer;border:1px solid #243049;border-radius:.375rem;padding:.7rem .9rem;transition:.2s;text-align:left;width:100%}
+.opt[aria-checked=true]{border-color:#DC2626;background:rgba(220,38,38,.12);color:#fff}
+.alarm{animation:alarm .5s steps(2) infinite}
+@keyframes alarm{0%{box-shadow:inset 0 0 90px rgba(220,38,38,.55)}100%{box-shadow:inset 0 0 0 rgba(220,38,38,0)}}
+.card:hover{border-color:#DC2626;transform:translateY(-4px)}
+.card{transition:.25s}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+.mi{display:flex;gap:.75rem;align-items:flex-start;width:100%;text-align:left;padding:.6rem .7rem;border-radius:.5rem;color:#e2e8f0;font-size:.9rem}
+.mi:hover,.mi[aria-current=true]{background:rgba(245,158,11,.1)}
+.mi small{display:block;color:#64748b;font-size:.75rem}
+.seg button{flex:1;padding:.4rem;font-size:.8rem;border-radius:.375rem;border:1px solid #243049;color:#cbd5e1}
+.seg button[aria-pressed=true]{background:#DC2626;border-color:#DC2626;color:#fff}
+.tbl{width:100%;min-width:720px;font-size:.9rem}
+.tbl th{font-weight:500;color:#64748b;text-align:left;padding:.5rem .75rem;font-size:.8rem}
+.tbl td{padding:.6rem .75rem;border-top:1px solid #1b2638;vertical-align:middle}
+</style>
+</head>
+<body class="font-body antialiased">
+
+<!-- NAV -->
+<header class="glass fixed top-0 inset-x-0 z-40">
+  <div class="max-w-7xl mx-auto px-5 h-16 flex items-center justify-between gap-4">
+    <a href="#top" class="flex items-center gap-2.5">
+      <span class="w-9 h-9 rounded bg-gradient-to-b from-red-500 to-red-800 grid place-items-center"><i data-lucide="shield-alert" class="w-5 h-5 text-white"></i></span>
+      <span class="d text-xl font-bold text-white">AEGIS FIRE SYSTEMS</span>
+    </a>
+    <nav class="hidden lg:flex gap-7 text-sm font-medium">
+      <a class="hover:text-amber" href="#calculator">Cylinder calculator</a>
+      <a class="hover:text-amber" href="#systems">Systems</a>
+      <a class="hover:text-amber" href="#process">Installation</a>
+    </nav>
+    <div class="flex items-center gap-3">
+      <span class="hidden md:flex items-center gap-1.5 text-xs border border-amber/40 text-amber rounded px-2.5 py-1.5"><i data-lucide="badge-check" class="w-4 h-4"></i>UL / FM / PESO Certified</span>
+      <button class="btn btn-r !py-2 text-sm" data-quote>Book Site Survey</button>
+      <div class="relative" id="pw">
+        <button id="pill" aria-haspopup="menu" aria-expanded="false" class="flex items-center gap-2.5 rounded-full border border-slate-700 bg-card/80 hover:border-amber pl-1 pr-2 sm:pr-3 py-1 transition">
+          <span class="relative"><span id="av" class="w-9 h-9 rounded-full grid place-items-center d text-lg font-bold text-white bg-gradient-to-br from-red-500 to-red-900">G</span><span id="dot" class="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-ink bg-emerald-400"></span></span>
+          <span id="pn" class="hidden sm:block text-sm font-semibold text-white"></span>
+          <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>
+        </button>
+        <div id="menu" role="menu" class="hidden absolute right-0 top-14 w-[19rem] rounded-xl border border-slate-700 bg-ink/95 backdrop-blur-xl shadow-2xl p-2">
+          <div id="prof" class="p-3 border-b border-slate-800"></div>
+          <div class="py-2">
+            <button class="mi" role="menuitem" data-go="client"><i data-lucide="layout-dashboard" class="w-5 h-5 text-amber shrink-0"></i><span>Switch to Client Dashboard<small>View My Installed Cylinders &amp; AMC</small></span></button>
+            <button class="mi" role="menuitem" data-go="admin"><i data-lucide="shield-check" class="w-5 h-5 text-crimson shrink-0"></i><span>Switch to Admin Command Center<small>Manage All Leads &amp; Installations</small></span></button>
+            <button class="mi" role="menuitem" data-go="pub"><i data-lucide="globe" class="w-5 h-5 text-slate-300 shrink-0"></i><span>Back to Public 3D Website</span></button>
+          </div>
+          <div class="border-t border-slate-800 p-3">
+            <p class="text-xs text-slate-500 mb-2">Demo role switch. No password needed.</p>
+            <div class="seg flex gap-2"><button data-role="guest">Guest</button><button data-role="client">Client</button><button data-role="admin">Admin</button></div>
+            <button class="mi !mt-2 !px-0 text-slate-400" data-role="guest"><i data-lucide="log-out" class="w-4 h-4 shrink-0"></i>Log out</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div id="pub">
+<!-- HERO -->
+<section id="top" class="relative pt-24 pb-12 overflow-hidden">
+  <div class="absolute inset-0 -z-10" style="background:radial-gradient(60% 50% at 75% 40%,rgba(220,38,38,.14),transparent 70%),radial-gradient(40% 40% at 10% 0%,rgba(245,158,11,.07),transparent 70%)"></div>
+  <div class="max-w-7xl mx-auto px-5 grid lg:grid-cols-2 gap-8 items-center">
+    <div class="lg:pr-6">
+      <h1 class="text-6xl sm:text-7xl xl:text-8xl font-extrabold leading-[.92] metal">Cylinder banks that put the fire out first.</h1>
+      <p class="mt-6 max-w-lg text-lg text-slate-400">We design, install and certify FM-200, Novec 1230 and CO2 suppression for server rooms, factories and commercial buildings, from the wall bracket to the discharge nozzle.</p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <button class="btn btn-r" data-quote><i data-lucide="calendar-check" class="w-4 h-4"></i>Book Site Survey</button>
+        <a href="#calculator" class="btn btn-o"><i data-lucide="calculator" class="w-4 h-4"></i>Size your room</a>
+      </div>
+      <dl class="mt-12 grid grid-cols-3 gap-4 max-w-lg">
+        <div class="border-l-2 border-crimson pl-3"><dt class="text-xs text-slate-500">Discharge time</dt><dd class="d text-4xl font-bold text-white">&lt; 10s</dd></div>
+        <div class="border-l-2 border-amber pl-3"><dt class="text-xs text-slate-500">Fittings rated</dt><dd class="d text-4xl font-bold text-white">300 Bar</dd></div>
+        <div class="border-l-2 border-slate-500 pl-3"><dt class="text-xs text-slate-500">Residue left</dt><dd class="d text-4xl font-bold text-white">Zero</dd></div>
+      </dl>
+    </div>
+    <div class="relative">
+      <div id="frame" class="relative rounded-xl plate overflow-hidden">
+        <div id="stage" class="w-full h-[440px] sm:h-[560px] cursor-grab"></div>
+        <div class="absolute top-3 left-3 right-3 flex justify-between pointer-events-none text-xs">
+          <span class="bg-ink/70 rounded px-2.5 py-1.5 border border-slate-700">Drag to rotate · scroll to zoom</span>
+          <span id="hud" class="bg-ink/70 rounded px-2.5 py-1.5 border border-slate-700 tabular-nums">Armed · 42 bar</span>
+        </div>
+        <div class="dock absolute bottom-3 inset-x-3 flex flex-wrap justify-center gap-2">
+          <button id="bX" aria-pressed="false"><i data-lucide="scan-line" class="w-4 h-4"></i>X-Ray Cutaway</button>
+          <button id="bE" aria-pressed="false"><i data-lucide="boxes" class="w-4 h-4"></i>Exploded View</button>
+          <button id="bD"><i data-lucide="siren" class="w-4 h-4"></i>Simulate Discharge Test</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CALCULATOR -->
+<section id="calculator" class="py-24">
+  <div class="max-w-7xl mx-auto px-5">
+    <h2 class="text-5xl sm:text-6xl font-bold text-white">How many cylinders does your room need?</h2>
+    <p class="mt-3 text-slate-400 max-w-2xl">Enter the room size and hazard. You get the agent weight and cylinder count we would plan for, before the survey confirms it.</p>
+    <div class="mt-10 grid lg:grid-cols-2 gap-6">
+      <div class="plate rounded-xl p-6 sm:p-8 space-y-6">
+        <div class="space-y-5" id="sliders"></div>
+        <fieldset>
+          <legend class="text-sm text-slate-400 mb-2">Hazard type</legend>
+          <div class="grid gap-2" role="radiogroup" id="hz"></div>
+        </fieldset>
+        <fieldset>
+          <legend class="text-sm text-slate-400 mb-2">Cylinder size</legend>
+          <div class="grid grid-cols-2 gap-2" role="radiogroup" id="sz"></div>
+        </fieldset>
+      </div>
+      <div class="plate rounded-xl p-6 sm:p-8 flex flex-col">
+        <div class="grid grid-cols-2 gap-4">
+          <div><p class="text-sm text-slate-500">Room volume</p><p class="d text-4xl font-bold text-white"><span id="rV">0</span> <span class="text-lg text-slate-500">m³</span></p><p class="text-xs text-slate-500"><span id="rF">0</span> ft³</p></div>
+          <div><p class="text-sm text-slate-500">Clean agent needed</p><p class="d text-4xl font-bold text-amber"><span id="rW">0</span> <span class="text-lg text-slate-500">kg</span></p><p class="text-xs text-slate-500" id="rA"></p></div>
+        </div>
+        <div class="mt-6 border-t border-slate-800 pt-6">
+          <p class="text-sm text-slate-500">Cylinders required</p>
+          <p class="d text-7xl font-extrabold text-crimson leading-none"><span id="rN">0</span><span class="text-2xl text-slate-400"> × <span id="rS">68</span>L</span></p>
+          <div id="bars" class="mt-5 flex flex-wrap gap-2"></div>
+          <p class="mt-4 text-sm text-slate-400" id="rNote"></p>
+        </div>
+        <button id="lock" class="btn btn-r mt-auto self-start mt-8"><i data-lucide="lock" class="w-4 h-4"></i>Lock Estimate &amp; Request Quote</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SYSTEMS -->
+<section id="systems" class="py-24 bg-card/40">
+  <div class="max-w-7xl mx-auto px-5">
+    <h2 class="text-5xl sm:text-6xl font-bold text-white">Four ways we keep your site running</h2>
+    <div class="mt-10 grid sm:grid-cols-2 xl:grid-cols-4 gap-5" id="grid"></div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process" class="py-24">
+  <div class="max-w-4xl mx-auto px-5">
+    <h2 class="text-5xl sm:text-6xl font-bold text-white text-center">From survey to certificate in four steps</h2>
+    <div class="relative mt-16" id="tl">
+      <div class="absolute left-5 top-0 bottom-0 w-px bg-slate-800"></div>
+      <div id="fill" class="absolute left-5 top-0 bottom-0 w-px bg-gradient-to-b from-amber to-crimson origin-top"></div>
+      <ol class="space-y-14" id="steps"></ol>
+    </div>
+  </div>
+</section>
+
+<footer class="border-t border-slate-800 py-10">
+  <div class="max-w-7xl mx-auto px-5 flex flex-wrap items-center justify-between gap-4 text-sm text-slate-500">
+    <span>© 2026 AEGIS FIRE SYSTEMS. Demo prototype, not a real business.</span>
+    
+  </div>
+</footer>
+</div>
+<main id="wk" class="hidden pt-24 pb-20"></main>
+<div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-[60] hidden bg-card border border-amber text-white rounded px-4 py-2 text-sm" role="status"></div>
+
+<!-- QUOTE MODAL -->
+<div id="modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/70 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="mt">
+  <div class="plate rounded-xl w-full max-w-lg max-h-[92vh] overflow-auto p-6 sm:p-8 relative">
+    <button class="absolute top-4 right-4 text-slate-400 hover:text-white" data-close aria-label="Close"><i data-lucide="x" class="w-5 h-5"></i></button>
+    <div id="mForm">
+      <h3 id="mt" class="text-4xl font-bold text-white">Book a site survey</h3>
+      <p id="mEst" class="mt-2 text-sm text-amber"></p>
+      <form id="qf" class="mt-5 space-y-3">
+        <input class="fld" name="name" placeholder="Full name" required autocomplete="name">
+        <input class="fld" name="phone" type="tel" placeholder="Phone / WhatsApp" required pattern="[0-9+\s-]{8,}" autocomplete="tel">
+        <input class="fld" name="email" type="email" placeholder="Work email" required autocomplete="email">
+        <input class="fld" name="site" placeholder="Site address or city" required>
+        <textarea class="fld" name="note" rows="2" placeholder="Anything we should know? (access hours, existing system)"></textarea>
+        <button class="btn btn-r w-full justify-center" type="submit"><i data-lucide="send" class="w-4 h-4"></i>Request site survey</button>
+      </form>
+    </div>
+    <div id="mDone" class="hidden text-center py-4">
+      <span class="w-16 h-16 mx-auto rounded-full bg-emerald-500/15 grid place-items-center"><i data-lucide="check" class="w-8 h-8 text-emerald-400"></i></span>
+      <h3 class="text-4xl font-bold text-white mt-4">Request received</h3>
+      <p class="mt-2 text-slate-400">Reference <b class="text-white" id="ref"></b>. An engineer will call within 4 working hours to confirm your survey slot.</p>
+      <a id="wa" target="_blank" rel="noopener" class="btn mt-6 justify-center w-full bg-emerald-600 hover:bg-emerald-500 text-white"><i data-lucide="message-circle" class="w-4 h-4"></i>Send Quote via WhatsApp</a>
+      <button class="btn btn-o mt-3 w-full justify-center" data-close>Close</button>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+const WA_NUMBER="919999999999"; // replace with the client's WhatsApp number (country code, no +)
+const $=s=>document.querySelector(s), reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+/* ================= 3D SCENE ================= */
+(function(){
+const wrap=$('#stage'),frame=$('#frame');
+const R=new THREE.WebGLRenderer({antialias:true,alpha:true});
+R.setPixelRatio(Math.min(devicePixelRatio,2));R.toneMapping=THREE.ACESFilmicToneMapping;R.toneMappingExposure=1.15;
+wrap.appendChild(R.domElement);
+const S=new THREE.Scene(),cam=new THREE.PerspectiveCamera(40,1,.1,100);
+cam.position.set(6.5,4.6,11.5);
+const ctl=new THREE.OrbitControls(cam,R.domElement);
+ctl.target.set(0,2.5,0);ctl.enableDamping=true;ctl.minDistance=5;ctl.maxDistance=22;ctl.maxPolarAngle=Math.PI*.56;
+
+// studio environment for metal reflections
+const env=new THREE.Scene();
+env.add(new THREE.Mesh(new THREE.SphereGeometry(30,16,16),new THREE.MeshBasicMaterial({color:0x101a2e,side:THREE.BackSide})));
+[[0,14,0,18,.4,6,0xffffff],[14,4,2,.4,7,12,0xffe2b0],[-14,5,4,.4,8,10,0xaac8ff],[0,3,-14,16,6,.4,0xffffff]].forEach(a=>{
+ const m=new THREE.Mesh(new THREE.BoxGeometry(a[3],a[4],a[5]),new THREE.MeshBasicMaterial({color:a[6]}));m.position.set(a[0],a[1],a[2]);env.add(m)});
+S.environment=new THREE.PMREMGenerator(R).fromScene(env).texture;
+const key=new THREE.DirectionalLight(0xffffff,1.1);key.position.set(5,9,8);S.add(key);
+const rim=new THREE.PointLight(0xdc2626,1.2,30);rim.position.set(-6,3,-4);S.add(rim);
+
+const M={
+ red:new THREE.MeshPhysicalMaterial({color:0xc41a1a,metalness:.4,roughness:.3,clearcoat:1,clearcoatRoughness:.15,side:THREE.DoubleSide}),
+ band:new THREE.MeshStandardMaterial({color:0xe5e7eb,metalness:.2,roughness:.5}),
+ steel:new THREE.MeshStandardMaterial({color:0x2b3340,metalness:.9,roughness:.45}),
+ brass:new THREE.MeshStandardMaterial({color:0xc9972b,metalness:1,roughness:.28}),
+ ss:new THREE.MeshStandardMaterial({color:0xd8dde3,metalness:1,roughness:.16}),
+ hose:new THREE.MeshStandardMaterial({color:0x14181d,metalness:.3,roughness:.7}),
+ coil:new THREE.MeshStandardMaterial({color:0x111827,metalness:.6,roughness:.4}),
+ agent:new THREE.MeshStandardMaterial({color:0x22d3ee,emissive:0x0891b2,emissiveIntensity:.9,transparent:true,opacity:.8})
+};
+const mesh=(g,m,x=0,y=0,z=0)=>{const o=new THREE.Mesh(g,m);o.position.set(x,y,z);return o};
+const cyl=(r,h,m,x,y,z,seg=32)=>mesh(new THREE.CylinderGeometry(r,r,h,seg),m,x,y,z);
+const rig=new THREE.Group();S.add(rig);
+const parts=[];
+const add=(o,x,y,z,e)=>{o.position.set(x,y,z);rig.add(o);parts.push({o,b:o.position.clone(),e:new THREE.Vector3(...e)});return o};
+const CX=[-1.8,-.6,.6,1.8];
+
+// wall plate + strobe
+const wall=new THREE.Group();
+wall.add(mesh(new THREE.BoxGeometry(6.4,6.2,.16),M.steel));
+for(let i=0;i<6;i++){const b=cyl(.07,.1,M.ss,(i%3-1)*2.8,i<3?-2.7:2.7,.1,6);b.rotation.x=Math.PI/2;wall.add(b)}
+const lampMat=new THREE.MeshStandardMaterial({color:0x7f1d1d,emissive:0xff2a2a,emissiveIntensity:.1,transparent:true,opacity:.95});
+const lamp=mesh(new THREE.SphereGeometry(.28,24,12,0,Math.PI*2,0,Math.PI/2),lampMat,2.5,2.35,.1);lamp.rotation.x=Math.PI/2;
+wall.add(lamp,cyl(.3,.12,M.coil,2.5,2.35,.08));
+const strobe=new THREE.PointLight(0xff2020,0,9);strobe.position.set(2.5,2.35,.8);wall.add(strobe);
+add(wall,0,2.6,-.82,[0,0,-1.6]);
+
+// brackets
+const br=new THREE.Group();
+[.55,1.9].forEach(y=>{br.add(mesh(new THREE.BoxGeometry(5.5,.16,.1),M.steel,0,y,-.58));
+ CX.forEach(x=>{const t=mesh(new THREE.TorusGeometry(.54,.045,8,32,Math.PI),M.steel,x,y,0);t.rotation.x=Math.PI/2;br.add(t)})});
+add(br,0,0,0,[0,-.2,-.5]);
+
+// cylinders (lathe shell + inner agent + siphon)
+const prof=[[0,0],[.42,0],[.5,.08],[.5,2.1],[.47,2.35],[.38,2.52],[.26,2.62],[.17,2.68],[.17,2.82],[0,2.82]].map(p=>new THREE.Vector2(...p));
+const shellG=new THREE.LatheGeometry(prof,40),agentG=new THREE.CylinderGeometry(.43,.43,1.9,32);agentG.translate(0,.95,0);
+const shells=[M.red],bandM=[M.band],agents=[],valves=[],cylG=[];
+const bandMat=M.band;
+CX.forEach((x,i)=>{
+ const g=new THREE.Group();
+ g.add(mesh(shellG,M.red));
+ g.add(mesh(new THREE.CylinderGeometry(.506,.506,.55,40,1,true),bandMat,0,1.5,0));
+ g.add(mesh(new THREE.CylinderGeometry(.508,.508,.07,40,1,true),new THREE.MeshStandardMaterial({color:0xF59E0B}),0,1.2,0));
+ const a=mesh(agentG,M.agent,0,.15,0);g.add(a);agents.push(a);
+ g.add(cyl(.045,2.75,M.brass,0,1.4,0,12));
+ g.add(mesh(new THREE.SphereGeometry(.12,12,8),M.brass,0,.12,0));
+ add(g,x,0,0,[x*.3,-.5,.9]);cylG.push(g);
+ // valve
+ const v=new THREE.Group();
+ v.add(cyl(.2,.3,M.brass,0,.15,0),cyl(.12,.26,M.brass,0,.42,0));
+ const c=cyl(.14,.38,M.coil,0,.2,.3);c.rotation.x=Math.PI/2;v.add(c);
+ v.add(mesh(new THREE.SphereGeometry(.04,8,8),new THREE.MeshBasicMaterial({color:0xF59E0B}),.1,.36,.5));
+ const ring=cyl(.24,.04,M.ss,0,.02,0);v.add(ring);
+ add(v,x,2.82,0,[x*.3,.55,.9]);valves.push(v);
+});
+
+// manifold
+const man=new THREE.Group();
+const pipe=cyl(.13,5.4,M.ss,0,0,0,24);pipe.rotation.z=Math.PI/2;man.add(pipe);
+[-2.7,2.7].forEach(x=>man.add(mesh(new THREE.SphereGeometry(.13,16,12),M.ss,x,0,0)));
+CX.forEach(x=>{man.add(cyl(.09,.3,M.ss,x,-.2,0,16),cyl(.2,.05,M.ss,x,-.34,0,20))});
+[-2.2,2.2].forEach(x=>{const f=cyl(.19,.06,M.ss,x,0,0,20);f.rotation.z=Math.PI/2;man.add(f)});
+add(man,0,4.55,0,[0,1.5,.9]);
+const noz=new THREE.Group(),NZ=[-1.2,1.2];
+NZ.forEach(x=>{noz.add(cyl(.07,.3,M.brass,x,.15,0,12),mesh(new THREE.ConeGeometry(.17,.22,20),M.brass,x,.4,0))});
+add(noz,0,4.68,0,[0,2.4,.9]);
+
+// gauge
+const gc=document.createElement('canvas');gc.width=gc.height=256;
+(function(){const c=gc.getContext('2d');c.fillStyle='#f8fafc';c.fillRect(0,0,256,256);
+ for(let i=0;i<=30;i++){const f=i/30,a=2.356-f*4.712,big=i%5==0,r1=big?92:100;
+  c.strokeStyle=f>.85?'#dc2626':'#0f172a';c.lineWidth=big?4:2;c.beginPath();
+  c.moveTo(128-Math.sin(a)*r1,128-Math.cos(a)*r1);c.lineTo(128-Math.sin(a)*112,128-Math.cos(a)*112);c.stroke();
+  if(big){c.fillStyle='#0f172a';c.font='bold 18px sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText(i*2,128-Math.sin(a)*72,128-Math.cos(a)*72)}}
+ c.fillStyle='#0f172a';c.font='bold 20px sans-serif';c.textAlign='center';c.fillText('BAR',128,178);c.font='13px sans-serif';c.fillText('AGENT PRESSURE',128,200)})();
+const gauge=new THREE.Group();
+gauge.add(cyl(.07,.4,M.ss,0,-.4,0,12));
+const gb=cyl(.46,.2,M.ss,0,0,0,40);gb.rotation.x=Math.PI/2;gauge.add(gb);
+const face=mesh(new THREE.CircleGeometry(.4,40),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(gc)}),0,0,.105);gauge.add(face);
+const needle=new THREE.Group();needle.position.z=.115;
+needle.add(mesh(new THREE.BoxGeometry(.026,.32,.01),new THREE.MeshBasicMaterial({color:0xdc2626}),0,.13,0),mesh(new THREE.CircleGeometry(.04,12),M.coil));
+gauge.add(needle);
+add(gauge,2.0,5.05,.05,[.9,1.4,.9]);
+const ARMED=.7;let pressure=ARMED;
+
+// hoses (rebuilt while parts move)
+const hoses=[];let lastEx=-1;
+function buildHoses(){
+ hoses.forEach(h=>{rig.remove(h);h.geometry.dispose()});hoses.length=0;
+ CX.forEach((x,i)=>{
+  const s=valves[i].position.clone().add(new THREE.Vector3(0,.55,0));
+  const e=man.position.clone().add(new THREE.Vector3(x,-.38,0));
+  const c=new THREE.CatmullRomCurve3([s,s.clone().add(new THREE.Vector3(0,.35,.5)),e.clone().add(new THREE.Vector3(0,-.4,.5)),e]);
+  const h=mesh(new THREE.TubeGeometry(c,28,.07,8),M.hose);rig.add(h);hoses.push(h)});
+}
+// floor disc
+const floor=mesh(new THREE.CircleGeometry(5.5,64),new THREE.MeshBasicMaterial({color:0x0b1222,transparent:true,opacity:.8}),0,-.02,.8);floor.rotation.x=-Math.PI/2;S.add(floor);
+const grid=new THREE.GridHelper(11,22,0x334155,0x1b2638);grid.position.set(0,0,.8);grid.material.transparent=true;grid.material.opacity=.4;S.add(grid);
+
+// mist particles
+const N=900,pp=new Float32Array(N*3).fill(-999),pv=new Float32Array(N*3),pl=new Float32Array(N);
+const pg=new THREE.BufferGeometry();pg.setAttribute('position',new THREE.BufferAttribute(pp,3));
+const sc=document.createElement('canvas');sc.width=sc.height=64;const sx=sc.getContext('2d'),gr=sx.createRadialGradient(32,32,0,32,32,32);
+gr.addColorStop(0,'rgba(255,255,255,1)');gr.addColorStop(1,'rgba(255,255,255,0)');sx.fillStyle=gr;sx.fillRect(0,0,64,64);
+const pts=new THREE.Points(pg,new THREE.PointsMaterial({size:.34,map:new THREE.CanvasTexture(sc),color:0xbfeaff,transparent:true,opacity:.5,depthWrite:false,blending:THREE.AdditiveBlending}));
+pts.frustumCulled=false;rig.add(pts);let pi=0;
+function emit(){NZ.forEach(x=>{for(let k=0;k<5;k++){const i=(pi++)%N;
+ pp[i*3]=noz.position.x+x;pp[i*3+1]=noz.position.y+.5;pp[i*3+2]=noz.position.z;
+ pv[i*3]=(Math.random()-.5)*2.4;pv[i*3+1]=2.5+Math.random()*3;pv[i*3+2]=(Math.random()-.2)*2.4;pl[i]=1}})}
+
+// controls
+const st={x:false,e:false,ex:0,dis:-1};
+const bX=$('#bX'),bE=$('#bE'),bD=$('#bD'),hud=$('#hud');
+bX.onclick=()=>{st.x=!st.x;bX.setAttribute('aria-pressed',st.x)};
+bE.onclick=()=>{st.e=!st.e;bE.setAttribute('aria-pressed',st.e)};
+bD.onclick=()=>{if(st.dis<0){st.dis=0;bD.disabled=true}};
+
+function resize(){const w=wrap.clientWidth,h=wrap.clientHeight;if(!w||!h)return;R.setSize(w,h);cam.aspect=w/h;cam.updateProjectionMatrix()}
+new ResizeObserver(resize).observe(wrap);resize();
+let vis=true;new IntersectionObserver(e=>vis=e[0].isIntersecting).observe(wrap);
+const clock=new THREE.Clock();let t=0,xr=0;
+function loop(){requestAnimationFrame(loop);const dt=Math.min(clock.getDelta(),.05);if(!vis)return;t+=dt;
+ // gentle oscillation
+ if(!reduce)rig.rotation.y=Math.sin(t*.35)*.38;
+ // exploded
+ const tg=st.e?1:0;st.ex+=(tg-st.ex)*Math.min(1,dt*3);const k=st.ex*st.ex*(3-2*st.ex);
+ parts.forEach(p=>p.o.position.copy(p.b).addScaledVector(p.e,k));
+ if(Math.abs(k-lastEx)>.0005||lastEx<0){buildHoses();lastEx=k}
+ // x-ray
+ xr+=((st.x?1:0)-xr)*Math.min(1,dt*5);
+ M.red.opacity=1-.8*xr;M.red.transparent=xr>.01;M.red.depthWrite=xr<.3;
+ bandMat.transparent=xr>.01;bandMat.opacity=1-.6*xr;
+ M.agent.emissiveIntensity=.35+.9*xr+Math.sin(t*2)*.08;M.agent.opacity=.25+.6*xr;
+ // discharge
+ let alarm=false;
+ if(st.dis>=0){st.dis+=dt;const d=st.dis;
+  if(d<4){pressure=ARMED*(1-.93*Math.min(1,d/3.4)**.7);emit();alarm=true;
+   agents.forEach(a=>a.scale.y=Math.max(.04,1-d/4.1))}
+  else if(d<7){pressure+=(ARMED-pressure)*Math.min(1,dt*1.6);agents.forEach(a=>a.scale.y+=(1-a.scale.y)*Math.min(1,dt*1.6));alarm=d<4.6}
+  else{st.dis=-1;bD.disabled=false;pressure=ARMED;agents.forEach(a=>a.scale.y=1)}
+  const on=alarm&&Math.sin(t*20)>0;strobe.intensity=on?4:0;lampMat.emissiveIntensity=on?3:.1;
+  hud.textContent=d<4?'DISCHARGING · '+Math.round(pressure*60)+' bar':'Re-pressurising · '+Math.round(pressure*60)+' bar';
+ }else{strobe.intensity=0;lampMat.emissiveIntensity=.1;hud.textContent='Armed · '+Math.round(pressure*60)+' bar'}
+ frame.classList.toggle('alarm',alarm);
+ needle.rotation.z=2.356-pressure*4.712+(st.dis>=0&&st.dis<4?(Math.random()-.5)*.05:0);
+ // mist
+ for(let i=0;i<N;i++){if(pl[i]>0){pl[i]-=dt*.55;pv[i*3+1]-=dt*2.2;pp[i*3]+=pv[i*3]*dt;pp[i*3+1]+=pv[i*3+1]*dt;pp[i*3+2]+=pv[i*3+2]*dt;if(pl[i]<=0)pp[i*3+1]=-999}}
+ pg.attributes.position.needsUpdate=true;
+ ctl.update();R.render(S,cam);
+}
+loop();
+})();
+
+/* ================= CALCULATOR ================= */
+const HZ={
+ server:{n:'Server Room / Data Center',a:'FM-200 (HFC-227ea)',c:7.4,d:1.0,f:'hal',s:t=>.1269+.000513*t},
+ ware:{n:'Industrial Warehouse',a:'CO2 total flooding',c:40,d:.667,f:'co2',note:'CO2 is only for unoccupied zones. A pre-discharge alarm and time delay are required.'},
+ elec:{n:'Electrical Switchgear Room',a:'Novec 1230',c:4.7,d:1.0,f:'hal',s:t=>.0664+.000274*t}
+};
+const calc={L:20,W:15,H:10,hz:'server',sz:68,res:null};
+const dims=[['L','Room length'],['W','Room width'],['H','Room height']];
+$('#sliders').innerHTML=dims.map(([k,l])=>`<label class="block"><span class="flex justify-between text-sm text-slate-400"><span>${l}</span><span class="text-white"><b id="o${k}">${calc[k]}</b> ft</span></span><input type="range" min="${k=='H'?7:8}" max="${k=='H'?30:120}" value="${calc[k]}" data-k="${k}" aria-label="${l} in feet"></label>`).join('');
+$('#hz').innerHTML=Object.entries(HZ).map(([k,h])=>`<button type="button" class="opt" role="radio" data-hz="${k}"><b class="text-white">${h.n}</b><span class="block text-xs text-slate-500">${h.a}</span></button>`).join('');
+$('#sz').innerHTML=[68,80].map(s=>`<button type="button" class="opt" role="radio" data-sz="${s}"><b class="text-white d text-2xl">${s}L</b><span class="block text-xs text-slate-500">cylinder</span></button>`).join('');
+function update(){
+ const h=HZ[calc.hz],V=calc.L*calc.W*calc.H*.0283168,T=20;
+ const W=h.f=='co2'?V*1.83*Math.log(100/(100-h.c)):(V/h.s(T))*(h.c/(100-h.c));
+ const cap=calc.sz*h.d,n=Math.max(1,Math.ceil(W/cap));
+ calc.res={V,W,n,h,txt:`${calc.L} × ${calc.W} × ${calc.H} ft · ${h.n} · ${n} × ${calc.sz}L ${h.a}`};
+ dims.forEach(([k])=>$('#o'+k).textContent=calc[k]);
+ $('#rV').textContent=V.toFixed(1);$('#rF').textContent=Math.round(calc.L*calc.W*calc.H).toLocaleString();
+ $('#rW').textContent=W.toFixed(1);$('#rA').textContent=`${h.a} at ${h.c}% design concentration`;
+ $('#rN').textContent=n;$('#rS').textContent=calc.sz;
+ $('#bars').innerHTML=Array.from({length:Math.min(n,24)},(_,i)=>{const f=i<n-1?1:(W-cap*(n-1))/cap;return `<span class="w-5 h-12 rounded-t-lg rounded-b-sm bg-slate-800 relative overflow-hidden border border-red-900"><span class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-red-700 to-red-500" style="height:${Math.round(f*100)}%"></span></span>`}).join('')+(n>24?`<span class="text-slate-500 self-center">+${n-24} more</span>`:'');
+ $('#rNote').textContent=(h.note?h.note+' ':'')+`Banks are filled to about ${Math.round((W/(n*cap))*100)}% of rated capacity. This is an estimate; final quantity comes from the site survey and flow calculation.`;
+ document.querySelectorAll('[data-hz]').forEach(b=>b.setAttribute('aria-checked',b.dataset.hz==calc.hz));
+ document.querySelectorAll('[data-sz]').forEach(b=>b.setAttribute('aria-checked',b.dataset.sz==calc.sz));
+}
+document.addEventListener('input',e=>{if(e.target.dataset.k){calc[e.target.dataset.k]=+e.target.value;update()}});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-hz],[data-sz]');if(!b)return;if(b.dataset.hz)calc.hz=b.dataset.hz;else calc.sz=+b.dataset.sz;update()});
+update();
+
+/* ================= SYSTEMS + PROCESS ================= */
+$('#grid').innerHTML=[
+ ['server','FM-200 / Novec 1230 Clean Agent Banks','Discharges in 10 seconds and leaves no residue. Built for server rooms, control rooms and archives.','NFPA 2001 · 25 / 42 bar'],
+ ['flame','High-Pressure CO2 Flooding','Total flooding and local application for switchgear, generators, paint lines and plant rooms.','NFPA 12 · Pre-discharge alarm'],
+ ['chef-hat','Kitchen Hood & Modular Systems','Wet-chemical and compact modular units that shut off gas and fuel automatically.','UL 300 · Auto fuel cut-off'],
+ ['wrench','24/7 AMC & Hydro-Testing','Annual maintenance, weighing, 5 and 10 year hydrostatic tests and refills with certificates.','PESO · Call-out in 4 hours']
+].map(c=>`<article class="card plate rounded-xl p-6 flex flex-col gap-4 border"><span class="w-12 h-12 rounded bg-crimson/15 grid place-items-center"><i data-lucide="${c[0]}" class="w-6 h-6 text-crimson"></i></span><h3 class="text-3xl font-bold text-white leading-none">${c[1]}</h3><p class="text-slate-400">${c[2]}</p><p class="mt-auto text-sm text-amber">${c[3]}</p></article>`).join('');
+$('#steps').innerHTML=[
+ ['3D Hazard Audit','We scan the room, count openings, trace cable trays and measure leakage so the agent quantity is based on the real space.'],
+ ['Hydraulic Flow & Piping Design','We size pipe runs and nozzle positions so the agent reaches design concentration in under 10 seconds.'],
+ ['Heavy Cylinder Bank Fitting','Cylinders are bolted to a steel wall bracket, then linked to solenoid valves, hoses and the overhead manifold.'],
+ ['Hydro-Testing & Certification','We pressure-test every joint, run a discharge test with your team and hand over the compliance certificate.']
+].map((s,i)=>`<li class="step relative pl-16"><span class="absolute left-0 top-0 w-10 h-10 rounded-full bg-ink border-2 border-amber grid place-items-center d text-xl font-bold text-amber">${i+1}</span><h3 class="text-4xl font-bold text-white">${s[0]}</h3><p class="mt-2 text-slate-400 max-w-xl">${s[1]}</p></li>`).join('');
+gsap.registerPlugin(ScrollTrigger);
+if(!reduce){
+ gsap.from('#grid .card',{y:50,opacity:0,stagger:.12,duration:.8,ease:'power3.out',scrollTrigger:{trigger:'#grid',start:'top 85%'}});
+ gsap.fromTo('#fill',{scaleY:0},{scaleY:1,ease:'none',scrollTrigger:{trigger:'#tl',start:'top 65%',end:'bottom 70%',scrub:.6}});
+ gsap.utils.toArray('.step').forEach(s=>gsap.from(s,{x:-40,opacity:0,duration:.7,ease:'power3.out',scrollTrigger:{trigger:s,start:'top 80%'}}));
+}
+
+/* ================= MODAL + LEADS ================= */
+const D=n=>new Date(Date.now()+n*864e5);
+const CLIENT={name:'Rajesh Sharma',co:'Nexora Data Systems Pvt Ltd',email:'rajesh@nexora.example',init:'RS'};
+const LS=['New Inquiry','Survey Scheduled','Quotation Sent','Installation Complete'];
+const leads=[
+ {ref:'AFS-1042',name:'Rohan Mehta',co:'Hexa Cloud DC',site:'Navi Mumbai data centre',sum:'30 × 24 × 12 ft · Server room · 4 × 68L',n:4,val:800000,st:0},
+ {ref:'AFS-1041',name:'Priya Nair',co:'Torque Auto Parts',site:'Pune auto-parts plant',sum:'80 × 60 × 20 ft · Warehouse · 11 × 80L',n:11,val:2095000,st:1},
+ {ref:'AFS-1039',name:'Rajesh Sharma',co:CLIENT.co,site:'Nexora annex server room',sum:'18 × 14 × 10 ft · Server room · 2 × 68L',n:2,val:430000,st:2},
+ {ref:'AFS-1038',name:'Imran Shaikh',co:'MSEDCL Vendor Park',site:'Thane substation',sum:'25 × 18 × 12 ft · Switchgear · 3 × 68L',n:3,val:615000,st:3}];
+let nextRef=1043;
+const REG=[
+ {id:'B1',co:CLIENT.co,site:'Server Room A',agent:'FM-200',n:4,sz:80,nom:42,p:42,j:0,w:79.6,wmax:80,hydro:'2023-03-14',amc:D(48),chk:'Verified',last:D(-21),mine:1},
+ {id:'B2',co:CLIENT.co,site:'Main Electrical Room',agent:'CO₂',n:2,sz:68,nom:57,p:56.8,j:0,w:45.2,wmax:45.3,hydro:'2022-09-08',amc:D(112),chk:'Verified',last:D(-21),mine:1},
+ {id:'B3',co:'Orbit Pharma Ltd',site:'Control Room, Pune',agent:'Novec 1230',n:3,sz:68,nom:42,p:41.6,j:0,w:67.5,wmax:68,hydro:'2024-01-19',amc:D(75),chk:'Verified',last:D(-9)},
+ {id:'B4',co:'Sahyadri Textiles',site:'Boiler MCC Room',agent:'CO₂',n:6,sz:68,nom:57,p:54.9,j:0,w:44.9,wmax:45.3,hydro:'2021-06-30',amc:D(27),chk:'Needs Check',last:D(-64)},
+ {id:'B5',co:'Metro Mall',site:'DG & Kitchen Bay',agent:'FM-200',n:2,sz:80,nom:42,p:36,j:0,w:79.1,wmax:80,hydro:'2022-02-11',amc:D(18),chk:'Low Pressure',last:D(-40)}];
+const TK=[{id:'TKT-301',bank:'B1',type:'Quarterly AMC visit',st:'Resolved'}];
+const modal=$('#modal');let est=null,estN=3,lastFocus;
+function openModal(withEst){lastFocus=document.activeElement;est=withEst?calc.res.txt:null;estN=withEst?calc.res.n:3;
+ $('#mEst').textContent=est?'Estimate attached: '+est:'';$('#mForm').classList.remove('hidden');$('#mDone').classList.add('hidden');
+ modal.classList.remove('hidden');modal.classList.add('flex');if(AU.role=='client'){const q=n=>$('#qf [name='+n+']');q('name').value=CLIENT.name;q('email').value=CLIENT.email}modal.querySelector('input').focus()}
+function closeModal(){modal.classList.add('hidden');modal.classList.remove('flex');lastFocus&&lastFocus.focus()}
+document.addEventListener('click',e=>{if(e.target.closest('[data-quote]'))openModal(false);if(e.target.closest('[data-close]')||e.target===modal)closeModal()});
+$('#lock').onclick=()=>openModal(true);
+document.addEventListener('keydown',e=>{if(e.key=='Escape'){closeModal();closeMenu()}});
+$('#qf').addEventListener('submit',e=>{e.preventDefault();const f=Object.fromEntries(new FormData(e.target));
+ const ref='AFS-'+(nextRef++);
+ leads.unshift({ref,name:f.name,co:AU.role=='client'?CLIENT.co:'Website enquiry',site:f.site,sum:est||'No estimate attached',n:estN,val:estN*185000+60000,st:0});
+ $('#ref').textContent=ref;
+ const msg=`Hello AEGIS FIRE SYSTEMS, I'd like a site survey (ref ${ref}).\nName: ${f.name}\nSite: ${f.site}\n${est?'Estimate: '+est:''}${f.note?'\nNote: '+f.note:''}`;
+ $('#wa').href=`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
+ $('#mForm').classList.add('hidden');$('#mDone').classList.remove('hidden');e.target.reset();renderAll()});
+
+/* ================= AUTH, VIEWS, DASHBOARDS ================= */
+const AU={role:'guest',view:'pub'};
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fd=d=>new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+const days=d=>Math.ceil((d-Date.now())/864e5);
+const fmtR=v=>v>=1e7?'₹'+(v/1e7).toFixed(2)+' Cr':'₹'+(v/1e5).toFixed(1)+' L';
+const pst=b=>{const d=b.p-b.nom;return d<-3?['Low pressure','text-red-400','bg-red-500']:d>3?['High pressure','text-amber','bg-amber']:['Optimal','text-emerald-400','bg-emerald-500']};
+const BADGE={guest:'bg-slate-700 text-slate-200',client:'bg-amber/20 text-amber',admin:'bg-crimson/25 text-red-300'};
+let fl=-1;
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.remove('hidden');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.add('hidden'),2400)}
+const menu=$('#menu'),pill=$('#pill');
+function closeMenu(){menu.classList.add('hidden');pill.setAttribute('aria-expanded','false')}
+pill.onclick=e=>{e.stopPropagation();const hid=menu.classList.toggle('hidden');pill.setAttribute('aria-expanded',!hid)};
+document.addEventListener('click',e=>{if(!e.target.closest('#pw'))closeMenu()});
+menu.addEventListener('click',e=>{const b=e.target.closest('[data-go],[data-role]');if(!b)return;b.dataset.role?setRole(b.dataset.role):setView(b.dataset.go)});
+document.querySelectorAll('header a[href^="#"]').forEach(a=>a.addEventListener('click',()=>{if(AU.view!='pub')setView('pub')}));
+function setRole(r){AU.role=r;setView(r=='client'?'client':r=='admin'?'admin':'pub')}
+function setView(v){if(v=='client'||v=='admin')AU.role=v;AU.view=v;
+ $('#pub').classList.toggle('hidden',v!='pub');$('#wk').classList.toggle('hidden',v=='pub');
+ closeMenu();renderAll();window.scrollTo(0,0);if(v=='pub')setTimeout(()=>ScrollTrigger.refresh(),60)}
+function renderPill(){
+ const U={guest:{n:'Guest',c:'Not signed in',e:'Log in to see dashboards',i:'G',l:'Guest'},client:{n:CLIENT.name,c:CLIENT.co,e:CLIENT.email,i:'RS',l:'Client'},admin:{n:'Admin',c:'Aegis HQ',e:'owner@aegisfire.example',i:'AD',l:'Admin'}}[AU.role];
+ $('#av').textContent=U.i;$('#pn').textContent=AU.role=='guest'?'Guest':AU.role=='client'?CLIENT.name+' • Client':'Admin • Aegis HQ';
+ $('#dot').className='absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-ink '+(AU.role=='guest'?'bg-slate-500':'bg-emerald-400');
+ $('#prof').innerHTML=`<div class="flex items-center gap-3"><span class="w-11 h-11 rounded-full grid place-items-center d text-xl font-bold text-white bg-gradient-to-br from-red-500 to-red-900">${U.i}</span><div class="min-w-0"><p class="text-white font-semibold truncate">${U.n}</p><p class="text-xs text-slate-400 truncate">${U.c}</p></div><span class="ml-auto text-xs rounded px-2 py-0.5 ${BADGE[AU.role]}">${U.l}</span></div><p class="mt-2 text-xs text-slate-500 truncate">${U.e}</p>`;
+ menu.querySelectorAll('.seg [data-role]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.role==AU.role));
+ menu.querySelectorAll('[data-go]').forEach(b=>b.setAttribute('aria-current',b.dataset.go==AU.view));
+}
+function renderAll(){renderPill();if(AU.view=='client')renderClient();if(AU.view=='admin')renderAdmin();lucide.createIcons()}
+
+function bankCard(b){const [t,c,bg]=pst(b),pv=b.p+b.j,dl=days(b.amc);
+return `<article class="plate rounded-xl p-5 border border-transparent"><div class="flex justify-between gap-3"><div><h3 class="text-3xl font-bold text-white leading-none">${b.site}</h3><p class="text-sm text-slate-400 mt-1">${b.n} × ${b.sz}L ${b.agent} bank</p></div><span class="text-xs rounded px-2 py-1 h-fit border border-slate-700 ${c}">${t}</span></div>
+<p class="mt-4 d text-5xl font-bold ${c}" data-p="${b.id}">${pv.toFixed(1)} <span class="text-lg text-slate-500">Bar</span></p>
+<div class="h-2 rounded bg-slate-800 mt-2 overflow-hidden"><div class="h-full ${bg}" style="width:${Math.min(100,pv/(b.nom*1.25)*100)}%"></div></div><p class="text-xs text-slate-500 mt-1">Target ${b.nom} bar at 20°C · ${b.chk}</p>
+<div class="mt-4 text-sm"><div class="flex justify-between text-slate-400"><span>Agent weight per cylinder</span><span class="text-white">${b.w} / ${b.wmax} kg</span></div><div class="h-2 rounded bg-slate-800 mt-1 overflow-hidden"><div class="h-full bg-cyan-400" style="width:${b.w/b.wmax*100}%"></div></div></div>
+<dl class="mt-4 grid grid-cols-2 gap-3 text-sm"><div><dt class="text-slate-500">Last hydro-test</dt><dd class="text-white">${fd(b.hydro)}</dd></div><div><dt class="text-slate-500">Next AMC service</dt><dd class="${dl<=30?'text-amber':'text-white'}">in ${dl} days</dd></div></dl>
+<button class="btn btn-o mt-5 w-full justify-center text-sm" data-tk="${b.id}"><i data-lucide="wrench" class="w-4 h-4"></i>Request Cylinder Refill / AMC Visit</button></article>`}
+
+function renderClient(){
+ const mine=leads.filter(l=>l.co==CLIENT.co),banks=REG.filter(b=>b.mine);
+ const bn=id=>id=='ALL'?'All banks':REG.find(b=>b.id==id).site;
+ $('#wk').innerHTML=`<div class="max-w-7xl mx-auto px-5">
+ <div class="flex flex-wrap items-end justify-between gap-4"><div><h1 class="text-5xl sm:text-6xl font-bold text-white">Welcome back, Rajesh</h1><p class="text-slate-400">Live status of the fire suppression systems at your facility.</p></div><button class="btn btn-r" data-quote><i data-lucide="calendar-check" class="w-4 h-4"></i>Book Site Survey</button></div>
+ <div class="mt-8 grid lg:grid-cols-3 gap-5">
+  <section class="plate rounded-xl p-6"><h2 class="text-3xl font-bold text-white leading-none">${CLIENT.co}</h2><p class="text-sm text-slate-400 mt-2">Plot 14, TTC Industrial Area, Navi Mumbai, Maharashtra 400710</p>
+   <div class="mt-4 flex items-center gap-2 rounded border border-emerald-500/40 bg-emerald-500/10 text-emerald-300 px-3 py-2 text-sm"><i data-lucide="badge-check" class="w-4 h-4 shrink-0"></i>PESO / Fire NOC: Valid till Dec 2027</div>
+   <dl class="mt-5 text-sm space-y-3"><div><dt class="text-slate-500">Account contact</dt><dd class="text-white">${CLIENT.name}<br>${CLIENT.email}</dd></div>
+   <div><dt class="text-slate-500">Emergency support engineer (24/7)</dt><dd class="text-white">Amit Kulkarni</dd><a class="text-amber" href="tel:+919000000123">+91 90000 00123</a></div>
+   <div><dt class="text-slate-500">Installed at this site</dt><dd class="text-white">${banks.length} banks · ${banks.reduce((s,b)=>s+b.n,0)} cylinders</dd></div></dl></section>
+  <div class="lg:col-span-2 grid md:grid-cols-2 gap-5">${banks.map(bankCard).join('')}</div></div>
+ <div class="mt-5 grid lg:grid-cols-2 gap-5">
+  <section class="plate rounded-xl p-6"><h2 class="text-3xl font-bold text-white">My quote requests</h2>${mine.length?mine.map(l=>`<div class="mt-4 border-t border-slate-800 pt-3"><div class="flex justify-between gap-3"><p class="text-white font-semibold">${l.ref} <span class="text-sm font-normal text-slate-400">${esc(l.site)}</span></p><span class="text-xs text-amber whitespace-nowrap">${LS[l.st]}</span></div><p class="text-xs text-slate-500">${esc(l.sum)}</p><div class="mt-2 grid grid-cols-4 gap-1">${LS.map((_,k)=>`<span class="h-1.5 rounded ${k<=l.st?'bg-amber':'bg-slate-800'}"></span>`).join('')}</div></div>`).join(''):'<p class="mt-3 text-slate-400">No requests yet. Submit Book Site Survey and it appears here straight away.</p>'}</section>
+  <section class="plate rounded-xl p-6"><div class="flex flex-wrap justify-between gap-3"><h2 class="text-3xl font-bold text-white">Service tickets</h2><button class="btn btn-r !py-2 text-sm" data-tk="ALL"><i data-lucide="wrench" class="w-4 h-4"></i>Request Cylinder Refill / AMC Visit</button></div>
+  ${TK.map(k=>`<div class="mt-3 border-t border-slate-800 pt-3 flex justify-between text-sm"><span class="text-white">${k.id} <span class="text-slate-400">· ${bn(k.bank)} · ${k.type}</span></span><span class="${k.st=='Open'?'text-amber':'text-emerald-400'}">${k.st}</span></div>`).join('')}</section></div></div>`}
+
+function renderAdmin(){
+ const done=leads.filter(l=>l.st==3),pipe=leads.filter(l=>l.st<3).reduce((s,l)=>s+l.val,0),cyl=REG.reduce((s,b)=>s+b.n,0)+done.reduce((s,l)=>s+l.n,0);
+ const kp=[['Total Active Cylinder Banks Installed',REG.length+done.length,cyl+' cylinders in service','server'],['Pending Site Surveys',leads.filter(l=>l.st<2).length,'New or scheduled','clipboard-list'],['Upcoming AMC Renewals',REG.filter(b=>days(b.amc)<=60).length,'Due within 60 days','calendar-clock'],['Estimated Pipeline Revenue',fmtR(pipe),'Open leads, not yet installed','indian-rupee']];
+ const rows=leads.map((l,i)=>[l,i]).filter(([l])=>fl<0||l.st==fl);
+ const sel=(o,v,a)=>`<select class="fld !w-auto !py-1.5 text-sm" ${a}>${o.map((s,k)=>`<option value="${Array.isArray(v)?s:k}" ${(Array.isArray(v)?s==v[0]:k==v)?'selected':''}>${s}</option>`).join('')}</select>`;
+ $('#wk').innerHTML=`<div class="max-w-7xl mx-auto px-5"><h1 class="text-5xl sm:text-6xl font-bold text-white">Admin Command Center</h1><p class="text-slate-400">Every lead, installation and client cylinder bank in one place.</p>
+ <div class="mt-8 grid sm:grid-cols-2 xl:grid-cols-4 gap-4">${kp.map(k=>`<div class="plate rounded-xl p-5"><div class="flex justify-between text-sm text-slate-400"><span>${k[0]}</span><i data-lucide="${k[3]}" class="w-5 h-5 text-amber shrink-0"></i></div><p class="d text-5xl font-bold text-white mt-2">${k[1]}</p><p class="text-xs text-slate-500">${k[2]}</p></div>`).join('')}</div>
+ <section class="plate rounded-xl p-6 mt-5"><div class="flex flex-wrap items-center justify-between gap-3"><h2 class="text-3xl font-bold text-white">Leads &amp; survey manager</h2><label class="text-sm text-slate-400 flex items-center gap-2">Filter<select id="flt" class="fld !w-auto !py-1.5 text-sm"><option value="-1">All statuses</option>${LS.map((s,k)=>`<option value="${k}" ${k==fl?'selected':''}>${s}</option>`).join('')}</select></label></div>
+ <div class="overflow-x-auto mt-3"><table class="tbl"><thead><tr><th>Lead</th><th>Site and estimate</th><th>Value</th><th>Status</th><th><span class="sr-only">Delete</span></th></tr></thead><tbody>${rows.length?rows.map(([l,i])=>`<tr><td><b class="text-white">${esc(l.name)}</b><div class="text-xs text-slate-500">${l.ref} · ${esc(l.co)}</div></td><td>${esc(l.site)}<div class="text-xs text-slate-500">${esc(l.sum)}</div></td><td class="text-white">${fmtR(l.val)}</td><td>${sel(LS,l.st,`data-ls="${i}" aria-label="Status for ${l.ref}"`)}</td><td><button data-del="${i}" aria-label="Delete ${l.ref}" class="text-slate-500 hover:text-red-400"><i data-lucide="trash-2" class="w-4 h-4"></i></button></td></tr>`).join(''):'<tr><td colspan="5" class="text-slate-400">No leads with this status.</td></tr>'}</tbody></table></div></section>
+ <section class="plate rounded-xl p-6 mt-5"><h2 class="text-3xl font-bold text-white">Client cylinder registry</h2>
+ <div class="overflow-x-auto mt-3"><table class="tbl"><thead><tr><th>Client and bank</th><th>Pressure</th><th>Check status</th><th>Last check</th><th>AMC due</th><th><span class="sr-only">Log check</span></th></tr></thead><tbody>${REG.map(b=>{const p=pst(b);return `<tr><td><b class="text-white">${b.co}</b><div class="text-xs text-slate-500">${b.site} · ${b.n} × ${b.sz}L ${b.agent}</div></td><td class="${p[1]}">${b.p.toFixed(1)} / ${b.nom} bar<div class="text-xs">${p[0]}</div></td><td>${sel(['Verified','Needs Check','Low Pressure'],[b.chk],`data-chk="${b.id}" aria-label="Check status for ${b.site}"`)}</td><td>${fd(b.last)}</td><td class="${days(b.amc)<=30?'text-amber':''}">${days(b.amc)} days</td><td><button class="btn btn-o !py-1.5 !px-3 text-xs" data-log="${b.id}">Log check</button></td></tr>`}).join('')}</tbody></table></div></section>
+ <section class="plate rounded-xl p-6 mt-5"><h2 class="text-3xl font-bold text-white">Client service tickets</h2>${TK.map((k,i)=>`<div class="mt-3 border-t border-slate-800 pt-3 flex flex-wrap justify-between items-center gap-2 text-sm"><span class="text-white">${k.id} <span class="text-slate-400">· ${CLIENT.co} · ${k.bank=='ALL'?'All banks':REG.find(b=>b.id==k.bank).site} · ${k.type}</span></span><button class="btn btn-o !py-1.5 !px-3 text-xs" data-res="${i}">${k.st=='Open'?'Mark resolved':'Reopen'}</button></div>`).join('')}</section></div>`}
+
+function setChk(b,v){b.chk=v;if(v=='Low Pressure')b.p=b.nom-6;if(v=='Verified')b.p=b.nom;if(v!='Needs Check')b.last=new Date()}
+function newTicket(id){TK.unshift({id:'TKT-'+(302+TK.length),bank:id,type:'Refill / AMC visit',st:'Open'});toast('Request sent. Our service desk will confirm a visit slot.');renderAll()}
+const wk=$('#wk');
+wk.addEventListener('click',e=>{const t=e.target.closest('[data-tk],[data-del],[data-log],[data-res]');if(!t)return;const d=t.dataset;
+ if(d.tk)newTicket(d.tk);
+ if(d.del!==undefined){leads.splice(+d.del,1);toast('Lead removed');renderAll()}
+ if(d.log){const b=REG.find(x=>x.id==d.log);setChk(b,'Verified');toast('Pressure check logged for '+b.site);renderAll()}
+ if(d.res!==undefined){const k=TK[+d.res];k.st=k.st=='Open'?'Resolved':'Open';renderAll()}});
+wk.addEventListener('change',e=>{const t=e.target,d=t.dataset;
+ if(d.ls!==undefined){leads[+d.ls].st=+t.value;toast('Status updated: '+LS[+t.value]);renderAll()}
+ if(d.chk){setChk(REG.find(x=>x.id==d.chk),t.value);toast('Check status updated');renderAll()}
+ if(t.id=='flt'){fl=+t.value;renderAll();$('#flt').focus()}});
+// live telemetry jitter on the client dashboard
+setInterval(()=>{if(AU.view!='client')return;REG.forEach(b=>b.j=(Math.random()-.5)*.3);
+ document.querySelectorAll('[data-p]').forEach(e=>{const b=REG.find(x=>x.id==e.dataset.p);e.firstChild.textContent=(b.p+b.j).toFixed(1)+' '})},2000);
+renderAll();
+</script>
+</body>
+</html>
